@@ -120,10 +120,9 @@ NAreplacement$dayType <- as.factor(NAreplacement$dayType)
 ```{r}
 library(ggplot2)
 
-averageStepsDayType <- aggregate(
-    NAreplacement$steps, 
-    by=list(interval=NAreplacement$interval, dayType=NAreplacement$dayType), 
-    mean)
+averageStepsDayType <- NAreplacement %>% 
+      group_by(interval, dayType) %>%
+      summarise(x=mean(steps))
 
 ggplot(averageStepsDayType, aes(interval, x)) + geom_line() + facet_wrap(~ dayType, ncol = 1, nrow = 2) + xlab("5 minutes interval") + ylab("Average") + ggtitle("Activity patterns between weekdays and weekends")
 
